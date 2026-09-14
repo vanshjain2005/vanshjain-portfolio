@@ -76,17 +76,6 @@
     .hero-enter{position:absolute;right:6vw;bottom:12%;font:10px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#b1aea7;z-index:5;opacity:0;will-change:transform,opacity;transition:color .25s ease}
     .hero-enter:hover{color:var(--paper)}
 
-    /* HERO PORTRAIT ---------------------------------------------- */
-    .hero-portrait-wrap{position:absolute;right:6vw;top:20%;width:min(330px,25vw);height:min(470px,55vh);min-height:360px;z-index:6;opacity:0;will-change:transform,opacity;pointer-events:auto}
-    .hero-portrait-frame{position:relative;width:100%;height:100%;border-radius:12px;overflow:hidden;border:1px solid rgba(244,243,239,.16);background:#0c0d10;box-shadow:0 30px 80px rgba(0,0,0,.65),0 0 40px rgba(223,168,116,.08);transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s cubic-bezier(.16,1,.3,1),border-color .3s ease}
-    .hero-portrait-frame:hover{transform:translateY(-4px) scale(1.015);border-color:rgba(223,168,116,.4);box-shadow:0 35px 95px rgba(0,0,0,.75),0 0 50px rgba(223,168,116,.18)}
-    .hero-portrait-img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block;filter:contrast(1.04) brightness(.96);transition:transform .6s cubic-bezier(.16,1,.3,1)}
-    .hero-portrait-frame:hover .hero-portrait-img{transform:scale(1.04)}
-    .hero-portrait-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,9,11,.88) 0%,rgba(8,9,11,.18) 35%,transparent 65%);pointer-events:none}
-    .hero-portrait-badge{position:absolute;bottom:14px;left:14px;right:14px;display:flex;align-items:center;gap:9px;padding:9px 13px;background:rgba(12,14,18,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(244,243,239,.12);border-radius:8px;font:9px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--paper)}
-    .badge-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:pulseDot 2s infinite ease-in-out}
-    @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
-
     /* WORK STORIES ----------------------------------------------- */
     .work{height:300vh}.work .scene-pin{height:100vh}
     .project-bg{background:radial-gradient(circle at 62% 38%,rgba(223,168,116,.06),transparent 32%),#08090b}
@@ -167,7 +156,6 @@
     /* TABLET / MOBILE ------------------------------------------- */
     @media (max-width:1180px) and (min-width:901px){
       .hero-name{font-size:clamp(3.4rem,6.8vw,6.8rem)}
-      .hero-portrait-wrap{right:4vw;width:min(290px,26vw);height:50vh}
       .project-copy{left:5vw;width:34vw}
       .project-frame-wrap{right:4vw;width:50vw;height:60vh}
       .contact-copy{left:5vw;width:38vw}
@@ -184,7 +172,6 @@
       .hero-name{position:relative;left:auto;top:auto;transform:none!important;font-size:clamp(3.4rem,14vw,6.2rem);text-align:left;white-space:normal;padding-top:8svh}
       .hero-role{position:relative;left:auto;top:auto;margin-top:22px;text-align:left;opacity:1!important;transform:none!important}
       .hero-about{position:relative;left:auto;top:auto;width:auto;margin-top:44px;opacity:1!important;transform:none!important}
-      .hero-portrait-wrap{position:relative;right:auto;top:auto;width:min(280px,84vw);height:360px;margin:28px 0 16px;opacity:1!important;transform:none!important}
       .hero-enter{position:relative;right:auto;bottom:auto;display:inline-block;margin-top:34px;opacity:1!important;transform:none!important}
       
       .project{height:auto}
@@ -210,7 +197,7 @@
       .world-progress{display:grid!important;opacity:1!important}
       /* Prevent transform:none from displacing centered hero-name to bottom-right */
       .hero-name{transform:translate(-50%,-50%)!important;opacity:1!important}
-      .hero-role,.hero-about,.hero-enter,.hero-portrait-wrap,.project-copy,.project-frame-wrap,.project-meta,.project-number-ghost,.contact-copy,.contact-form,.contact-orbit,.footer-marquee{opacity:1!important}
+      .hero-role,.hero-about,.hero-enter,.project-copy,.project-frame-wrap,.project-meta,.project-number-ghost,.contact-copy,.contact-form,.contact-orbit,.footer-marquee{opacity:1!important}
     }
   </style>
 </head>
@@ -262,16 +249,6 @@
             <div class="hero-name" id="hero-name"><span>VANSH</span> <span>JAIN</span></div>
             <div class="hero-role" id="hero-role">CREATIVE DEVELOPER / UI/UX DESIGNER</div>
             <div class="hero-about" id="hero-about"><div class="hero-kicker">ABOUT</div><div class="hero-copy" id="hero-copy-text">I design and build memorable digital experiences where deliberate design craft meets expressive frontend engineering.</div></div>
-            <div class="hero-portrait-wrap" id="hero-portrait">
-              <div class="hero-portrait-frame">
-                <img src="assets/vansh-portrait.jpg" alt="Vansh Jain" class="hero-portrait-img" id="hero-portrait-img" loading="eager" />
-                <div class="hero-portrait-overlay"></div>
-                <div class="hero-portrait-badge">
-                  <span class="badge-dot"></span>
-                  <span>VANSH JAIN • STUDIO</span>
-                </div>
-              </div>
-            </div>
             <a class="hero-enter" id="hero-enter" href="#work-01">ENTER THE WORK ↓</a>
           </div></div>
         </div>
@@ -629,11 +606,6 @@
             {x:0, y:0, opacity:1, duration:0.26, ease:'none'},
             0.36
           )
-          .fromTo('#hero-portrait',
-            {x: reduce ? 0 : 50, y: reduce ? 0 : 15, opacity:0, scale: reduce ? 1 : 0.95},
-            {x:0, y:0, opacity:1, scale:1, duration:0.28, ease:'none'},
-            0.30
-          )
           .fromTo('#hero-enter',
             {y: reduce ? 0 : 25, opacity:0},
             {y:0, opacity:1, duration:0.22, ease:'none'},
@@ -645,7 +617,6 @@
           .to('#hero-name',{xPercent:-50,yPercent:-50,x:'-16vw',y:'-24vh',scale:0.58,opacity:0.4,duration:0.2,ease:'none'},0.80)
           .to('#hero-role',{y:'-5vh',opacity:0.25,duration:0.2,ease:'none'},0.80)
           .to('#hero-about',{y:'-6vh',opacity:0.2,duration:0.2,ease:'none'},0.82)
-          .to('#hero-portrait',{x: reduce ? 0 : 40, y: reduce ? 0 : -15, scale: 0.96, opacity: 0.2, duration: 0.2, ease: 'none'},0.80)
           .to('#hero-enter',{opacity:0,duration:0.18,ease:'none'},0.82);
 
         // PROJECTS TIMELINES
