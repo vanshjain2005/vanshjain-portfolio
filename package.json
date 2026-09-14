@@ -1,0 +1,36 @@
+{
+  "name": "vansh-jain-portfolio-fullstack",
+  "version": "1.0.0",
+  "description": "Full-stack cinematic portfolio web application for Vansh Jain with Express, SQLite, OpenAPI Docs, and Admin CMS.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "node src/config/seed.js",
+    "test": "node --test tests/api.test.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "keywords": [
+    "portfolio",
+    "express",
+    "sqlite",
+    "full-stack",
+    "creative-developer",
+    "swagger",
+    "cms"
+  ],
+  "author": "Vansh Jain",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
