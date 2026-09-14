@@ -31,7 +31,7 @@
     .intro-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
     .intro-ring circle{fill:none}.intro-track{stroke:rgba(244,243,239,.09);stroke-width:1.5}.intro-fill{stroke:var(--paper);stroke-width:2;stroke-linecap:round}
     .counter{font:800 clamp(3.2rem,7vw,5.6rem)/1 var(--display);letter-spacing:-.04em;text-align:center;will-change:transform,opacity,filter;z-index:2}
-    .intro-reveal{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none;padding:0 5vw}
+    .intro-reveal{position:absolute;inset:0;display:none;place-items:center;text-align:center;pointer-events:none;padding:0 5vw}
     .intro-line-one,.intro-line-two{opacity:0;will-change:transform,opacity,filter}
     .intro-line-one{font:400 clamp(2.2rem,4.5vw,4.5rem)/.95 var(--serif);transform:translate3d(-70px,0,0) scale(.94);filter:blur(8px)}
     .intro-line-two{font:800 clamp(2.8rem,6vw,7rem)/.9 var(--display);letter-spacing:-.055em;transform:translate3d(70px,20px,0) scale(.9);filter:blur(10px);margin-top:12px}
@@ -204,13 +204,13 @@
       .footer-bottom{flex-direction:column}
     }
     @media (prefers-reduced-motion:reduce){
+      .intro{display:none!important}
       .cursor{display:none!important}
       .nav{opacity:1!important}
       .world-progress{display:grid!important;opacity:1!important}
       /* Prevent transform:none from displacing centered hero-name to bottom-right */
       .hero-name{transform:translate(-50%,-50%)!important;opacity:1!important}
       .hero-role,.hero-about,.hero-enter,.hero-portrait-wrap,.project-copy,.project-frame-wrap,.project-meta,.project-number-ghost,.contact-copy,.contact-form,.contact-orbit,.footer-marquee{opacity:1!important}
-      .intro-line-one,.intro-line-two{transform:none!important;filter:none!important;opacity:1!important}
     }
   </style>
 </head>
@@ -514,14 +514,14 @@
 
     const hasHash = Boolean(window.location.hash && window.location.hash !== '#');
     const isScrolled = window.scrollY > 40;
-    if(hasHash || isScrolled){
+    if(hasHash || isScrolled || reduce){
       finishIntro();
     } else {
       const introState = {n:1};
       const introTl = gsap.timeline();
       introTl.to(introState,{
         n:100,
-        duration:1.6,
+        duration:1.5,
         ease:'power2.in',
         snap:{n:1},
         onUpdate(){
@@ -530,11 +530,38 @@
           if(ring) ring.style.strokeDashoffset = String(circumference - (n/100)*circumference);
         }
       })
-      .to('.intro-ring-wrap',{scale:.92,opacity:0,filter:'blur(6px)',duration:.25,ease:'power3.inOut'},'+=0.1')
-      .set('#intro-reveal',{ariaHidden:false})
-      .fromTo(one,{x:-50,opacity:0,scale:.94,filter:'blur(6px)'},{x:0,opacity:1,scale:1,filter:'blur(0px)',duration:.5,ease:'power3.out'})
-      .fromTo(two,{x:50,y:15,opacity:0,scale:.9,filter:'blur(6px)'},{x:0,y:0,opacity:1,scale:1,filter:'blur(0px)',duration:.6,ease:'power3.out'},'+=0.15')
-      .to(intro,{opacity:0,scale:1.015,duration:.5,ease:'power3.inOut',onComplete:finishIntro},'+=0.6');
+      .to('.intro-ring-wrap',{
+        scale:.9,
+        opacity:0,
+        filter:'blur(8px)',
+        duration:.28,
+        ease:'power3.inOut',
+        onComplete(){
+          const wrap = q('.intro-ring-wrap');
+          if(wrap) wrap.style.display = 'none';
+        }
+      })
+      .set('#intro-reveal',{
+        display:'grid',
+        ariaHidden:false
+      })
+      .fromTo(one,
+        {x:-45,opacity:0,scale:.95,filter:'blur(8px)'},
+        {x:0,opacity:1,scale:1,filter:'blur(0px)',duration:.48,ease:'power3.out'},
+        '+=0.06'
+      )
+      .fromTo(two,
+        {x:45,y:15,opacity:0,scale:.92,filter:'blur(8px)'},
+        {x:0,y:0,opacity:1,scale:1,filter:'blur(0px)',duration:.55,ease:'power3.out'},
+        '+=0.12'
+      )
+      .to(intro,{
+        opacity:0,
+        scale:1.02,
+        duration:.5,
+        ease:'power3.inOut',
+        onComplete:finishIntro
+      },'+=0.75');
 
       window.addEventListener('keydown',e=>{
         if(e.key === 'Escape' && !introFinished){
