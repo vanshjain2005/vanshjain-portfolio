@@ -31,10 +31,11 @@
     .intro-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
     .intro-ring circle{fill:none}.intro-track{stroke:rgba(244,243,239,.09);stroke-width:1.5}.intro-fill{stroke:var(--paper);stroke-width:2;stroke-linecap:round}
     .counter{font:800 clamp(3.2rem,7vw,5.6rem)/1 var(--display);letter-spacing:-.04em;text-align:center;will-change:transform,opacity,filter;z-index:2}
-    .intro-reveal{position:absolute;inset:0;display:none;place-items:center;text-align:center;pointer-events:none;padding:0 5vw}
+    .intro-reveal{position:absolute;inset:0;display:none;place-items:center;justify-content:center;text-align:center;pointer-events:none;padding:0 5vw;z-index:3}
+    .intro-reveal-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;max-width:900px}
     .intro-line-one,.intro-line-two{opacity:0;will-change:transform,opacity,filter}
-    .intro-line-one{font:400 clamp(2.2rem,4.5vw,4.5rem)/.95 var(--serif);transform:translate3d(-70px,0,0) scale(.94);filter:blur(8px)}
-    .intro-line-two{font:800 clamp(2.8rem,6vw,7rem)/.9 var(--display);letter-spacing:-.055em;transform:translate3d(70px,20px,0) scale(.9);filter:blur(10px);margin-top:12px}
+    .intro-line-one{font:400 clamp(2rem,4.2vw,4rem)/1.1 var(--serif);color:var(--paper);letter-spacing:.02em}
+    .intro-line-two{font:800 clamp(2.4rem,5.6vw,5.8rem)/1.02 var(--display);letter-spacing:-.045em;margin-top:14px;background:linear-gradient(135deg,#ffffff 0%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
     /* GLOBAL UI -------------------------------------------------- */
     .nav{position:fixed;inset:0 0 auto;z-index:100;height:74px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;background:linear-gradient(to bottom,rgba(8,9,11,.93),rgba(8,9,11,0));pointer-events:none;opacity:0;transition:opacity .6s ease}
@@ -64,17 +65,22 @@
     .bg-light{background:radial-gradient(circle at var(--px,50%) var(--py,45%),rgba(244,243,239,.105),transparent 16%);mix-blend-mode:screen;opacity:.5}
     .bg-ribbon svg{width:100%;height:100%}.bg-ribbon path{fill:none;stroke:rgba(223,168,116,.45);stroke-width:1;vector-effect:non-scaling-stroke}.bg-ribbon path:nth-child(2n){stroke:rgba(160,175,255,.18)}
     .noise{position:absolute;inset:0;pointer-events:none;opacity:.025;background-image:radial-gradient(rgba(255,255,255,.45) .45px,transparent .45px);background-size:5px 5px;mix-blend-mode:soft-light}
-    .scene-content{position:absolute;inset:0;padding:105px 7vw 70px;display:grid;place-items:center}
+    .scene-content{position:absolute;inset:0;padding:105px 7vw 60px;display:flex;justify-content:center;align-items:center}
     .scene-inner{position:relative;width:min(1360px,100%);height:100%}
 
-    /* HERO ------------------------------------------------------- */
-    .hero-name{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font:800 clamp(3.8rem,7.5vw,8.2rem)/.82 var(--display);letter-spacing:-.07em;text-align:center;white-space:nowrap;z-index:4;will-change:transform,opacity}
-    .hero-role{position:absolute;left:6vw;top:32%;max-width:480px;text-align:left;font:10px var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--accent);z-index:5;opacity:0;will-change:transform,opacity}
-    .hero-about{position:absolute;left:6vw;top:48%;width:min(640px,48vw);z-index:5;opacity:0;will-change:transform,opacity}
-    .hero-kicker{font:10px var(--mono);letter-spacing:.27em;color:#77746e;text-transform:uppercase;margin-bottom:14px}
-    .hero-copy{font:500 clamp(1.05rem,1.45vw,1.5rem)/1.26 var(--display);letter-spacing:-.02em;max-width:640px}
-    .hero-enter{position:absolute;right:6vw;bottom:12%;font:10px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#b1aea7;z-index:5;opacity:0;will-change:transform,opacity;transition:color .25s ease}
-    .hero-enter:hover{color:var(--paper)}
+    /* HERO (CENTERED VERTICAL STACK) ---------------------------- */
+    .hero-center-stack{position:relative;width:min(960px,92vw);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin:auto;z-index:4}
+    .hero-name{margin:0;font:800 clamp(3.6rem,8.5vw,8.5rem)/.88 var(--display);letter-spacing:-.065em;text-transform:uppercase;color:var(--paper);text-align:center}
+    .hero-role{margin-top:20px;display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 clamp(10px,1.2vw,12px) var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--accent);text-align:center}
+    .hero-status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+    .hero-about{margin-top:26px;max-width:680px;text-align:center;display:flex;flex-direction:column;align-items:center}
+    .hero-kicker{font:700 10px var(--mono);letter-spacing:.28em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+    .hero-copy{margin:0;font:500 clamp(1.05rem,1.4vw,1.38rem)/1.42 var(--display);letter-spacing:-.02em;color:#dcdad4;text-align:center}
+    .hero-actions{margin-top:32px;display:flex;justify-content:center;align-items:center}
+    .hero-enter{display:inline-flex;align-items:center;gap:12px;padding:14px 28px;border:1px solid rgba(244,243,239,.2);border-radius:999px;font:700 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--paper);background:rgba(244,243,239,.04);backdrop-filter:blur(8px);transition:all .3s ease}
+    .hero-enter:hover{border-color:var(--accent);color:var(--accent);background:rgba(223,168,116,.1);transform:translateY(-2px)}
+    .hero-enter .hero-arrow{font-size:14px;transition:transform .3s ease}
+    .hero-enter:hover .hero-arrow{transform:translateY(3px)}
 
     /* WORK STORIES ----------------------------------------------- */
     .work{height:300vh}.work .scene-pin{height:100vh}
@@ -166,13 +172,15 @@
       .story,.story.hero,.story.contact,.work{height:auto}
       .scene-pin{position:relative;height:auto;min-height:100svh;overflow:visible}
       .camera{position:relative;min-height:100svh}
-      .scene-content{position:relative;min-height:100svh;padding:88px 6vw 70px;display:block}
+      .scene-content{position:relative;min-height:100svh;padding:88px 6vw 50px;display:flex;align-items:center;justify-content:center}
       .scene-inner{height:auto}
       
-      .hero-name{position:relative;left:auto;top:auto;transform:none!important;font-size:clamp(3.4rem,14vw,6.2rem);text-align:left;white-space:normal;padding-top:8svh}
-      .hero-role{position:relative;left:auto;top:auto;margin-top:22px;text-align:left;opacity:1!important;transform:none!important}
-      .hero-about{position:relative;left:auto;top:auto;width:auto;margin-top:44px;opacity:1!important;transform:none!important}
-      .hero-enter{position:relative;right:auto;bottom:auto;display:inline-block;margin-top:34px;opacity:1!important;transform:none!important}
+      .hero-center-stack{width:100%;padding:20px 0}
+      .hero-name{font-size:clamp(2.8rem,12vw,5rem)}
+      .hero-role{margin-top:16px;font-size:10px}
+      .hero-about{margin-top:20px}
+      .hero-copy{font-size:1.05rem}
+      .hero-actions{margin-top:24px}
       
       .project{height:auto}
       .project-layout{position:relative;min-height:100svh}
@@ -191,13 +199,9 @@
       .footer-bottom{flex-direction:column}
     }
     @media (prefers-reduced-motion:reduce){
-      .intro{display:none!important}
       .cursor{display:none!important}
       .nav{opacity:1!important}
       .world-progress{display:grid!important;opacity:1!important}
-      /* Prevent transform:none from displacing centered hero-name to bottom-right */
-      .hero-name{transform:translate(-50%,-50%)!important;opacity:1!important}
-      .hero-role,.hero-about,.hero-enter,.project-copy,.project-frame-wrap,.project-meta,.project-number-ghost,.contact-copy,.contact-form,.contact-orbit,.footer-marquee{opacity:1!important}
     }
   </style>
 </head>
@@ -214,7 +218,7 @@
       <div class="counter" id="counter">01</div>
     </div>
     <div class="intro-reveal" id="intro-reveal" aria-hidden="true">
-      <div>
+      <div class="intro-reveal-inner">
         <div class="intro-line-one" id="intro-line-one">LADIES AND GENTLEMEN,</div>
         <div class="intro-line-two" id="intro-line-two">YOU'RE NOT READY FOR THIS.</div>
       </div>
@@ -245,12 +249,27 @@
           <div class="bg-field"></div><div class="bg-grid" id="hero-grid"></div><div class="bg-light"></div>
           <div class="bg-ribbon" id="hero-ribbon"><svg viewBox="0 0 1600 1000" preserveAspectRatio="none" aria-hidden="true"><path d="M-40 610 C 270 350, 430 860, 800 540 S 1350 250, 1640 520"/><path d="M-40 690 C 310 410, 520 920, 860 600 S 1360 300, 1640 580"/><path d="M-40 770 C 320 500, 560 970, 910 660 S 1400 390, 1640 650"/><path d="M-40 830 C 350 570, 600 1010, 950 720 S 1450 440, 1640 710"/></svg></div>
           <div class="noise"></div>
-          <div class="scene-content"><div class="scene-inner">
-            <div class="hero-name" id="hero-name"><span>VANSH</span> <span>JAIN</span></div>
-            <div class="hero-role" id="hero-role">CREATIVE DEVELOPER / UI/UX DESIGNER</div>
-            <div class="hero-about" id="hero-about"><div class="hero-kicker">ABOUT</div><div class="hero-copy" id="hero-copy-text">I design and build memorable digital experiences where deliberate design craft meets expressive frontend engineering.</div></div>
-            <a class="hero-enter" id="hero-enter" href="#work-01">ENTER THE WORK ↓</a>
-          </div></div>
+          <div class="scene-content">
+            <div class="hero-center-stack">
+              <h1 class="hero-name" id="hero-name">
+                <span>VANSH</span> <span>JAIN</span>
+              </h1>
+              <div class="hero-role" id="hero-role">
+                <span class="hero-status-dot"></span>
+                <span>CREATIVE DEVELOPER &amp; UI/UX DESIGNER</span>
+              </div>
+              <div class="hero-about" id="hero-about">
+                <div class="hero-kicker">ABOUT</div>
+                <p class="hero-copy" id="hero-copy-text">I design and build memorable digital experiences where deliberate design craft meets expressive frontend engineering.</p>
+              </div>
+              <div class="hero-actions">
+                <a class="hero-enter magnetic" id="hero-enter" href="#work-01">
+                  <span>ENTER THE WORK</span>
+                  <span class="hero-arrow">↓</span>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -428,7 +447,7 @@
   <script>
   (()=>{
     'use strict';
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduce = false;
     const isDesktop = () => window.innerWidth > 900;
     const q = s => document.querySelector(s);
     const qa = s => [...document.querySelectorAll(s)];
@@ -452,6 +471,10 @@
     gsap.defaults({overwrite:'auto'});
 
     /* INTRO: 01 -> 100 in ~2.35s with scaled circle circumference */
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
     const intro = q('#intro');
     const counter = q('#counter');
     const ring = q('#ring-progress');
@@ -489,56 +512,57 @@
       }
     }
 
-    const hasHash = Boolean(window.location.hash && window.location.hash !== '#');
-    const isScrolled = window.scrollY > 40;
-    if(hasHash || isScrolled || reduce){
+    const hasDeepHash = Boolean(window.location.hash && window.location.hash !== '#' && window.location.hash !== '#hero-story');
+    if(hasDeepHash){
       finishIntro();
     } else {
+      window.scrollTo(0, 0);
       const introState = {n:1};
       const introTl = gsap.timeline();
-      introTl.to(introState,{
-        n:100,
-        duration:1.5,
-        ease:'power2.in',
-        snap:{n:1},
-        onUpdate(){
-          const n = Math.round(introState.n);
-          if(counter) counter.textContent = String(n).padStart(2,'0');
-          if(ring) ring.style.strokeDashoffset = String(circumference - (n/100)*circumference);
-        }
-      })
-      .to('.intro-ring-wrap',{
-        scale:.9,
-        opacity:0,
-        filter:'blur(8px)',
-        duration:.28,
-        ease:'power3.inOut',
-        onComplete(){
-          const wrap = q('.intro-ring-wrap');
-          if(wrap) wrap.style.display = 'none';
-        }
-      })
-      .set('#intro-reveal',{
-        display:'grid',
-        ariaHidden:false
-      })
-      .fromTo(one,
-        {x:-45,opacity:0,scale:.95,filter:'blur(8px)'},
-        {x:0,opacity:1,scale:1,filter:'blur(0px)',duration:.48,ease:'power3.out'},
-        '+=0.06'
-      )
-      .fromTo(two,
-        {x:45,y:15,opacity:0,scale:.92,filter:'blur(8px)'},
-        {x:0,y:0,opacity:1,scale:1,filter:'blur(0px)',duration:.55,ease:'power3.out'},
-        '+=0.12'
-      )
-      .to(intro,{
-        opacity:0,
-        scale:1.02,
-        duration:.5,
-        ease:'power3.inOut',
-        onComplete:finishIntro
-      },'+=0.75');
+      introTl
+        .to(introState,{
+          n:100,
+          duration:1.5,
+          ease:'power2.in',
+          snap:{n:1},
+          onUpdate(){
+            const n = Math.round(introState.n);
+            if(counter) counter.textContent = String(n).padStart(2,'0');
+            if(ring) ring.style.strokeDashoffset = String(circumference - (n/100)*circumference);
+          }
+        })
+        .to('.intro-ring-wrap',{
+          scale:.88,
+          opacity:0,
+          filter:'blur(10px)',
+          duration:.32,
+          ease:'power3.inOut',
+          onComplete(){
+            const wrap = q('.intro-ring-wrap');
+            if(wrap) wrap.style.display = 'none';
+          }
+        })
+        .set('#intro-reveal',{
+          display:'grid',
+          ariaHidden:false
+        })
+        .fromTo(one,
+          {y:30,opacity:0,scale:.96,filter:'blur(8px)'},
+          {y:0,opacity:1,scale:1,filter:'blur(0px)',duration:.52,ease:'power3.out'},
+          '+=0.06'
+        )
+        .fromTo(two,
+          {y:35,opacity:0,scale:.94,filter:'blur(10px)'},
+          {y:0,opacity:1,scale:1,filter:'blur(0px)',duration:.58,ease:'power3.out'},
+          '+=0.12'
+        )
+        .to(intro,{
+          opacity:0,
+          scale:1.02,
+          duration:.55,
+          ease:'power3.inOut',
+          onComplete:finishIntro
+        },'+=0.85');
 
       window.addEventListener('keydown',e=>{
         if(e.key === 'Escape' && !introFinished){
@@ -586,38 +610,18 @@
     ScrollTrigger.matchMedia({
       // DESKTOP (> 900px)
       "(min-width: 901px)": function() {
-        gsap.set('#hero-name', {xPercent:-50, yPercent:-50, x:0, y:0});
-
         // HERO TIMELINE
         const heroTl = gsap.timeline({scrollTrigger: sceneScroll('#hero-story')});
         heroTl
-          .fromTo('#hero-name',
-            {xPercent:-50, yPercent:-50, x:0, y:0, scale:1, opacity:1},
-            {xPercent:-50, yPercent:-50, x:'-16vw', y:'-18vh', scale:0.64, opacity:1, duration:0.32, ease:'none'},
-            0.08
-          )
-          .fromTo('#hero-role',
-            {x: reduce ? 0 : 60, opacity:0},
-            {x:0, opacity:1, duration:0.24, ease:'none'},
-            0.26
-          )
-          .fromTo('#hero-about',
-            {x: reduce ? 0 : -40, y: reduce ? 0 : 20, opacity:0},
-            {x:0, y:0, opacity:1, duration:0.26, ease:'none'},
-            0.36
-          )
-          .fromTo('#hero-enter',
-            {y: reduce ? 0 : 25, opacity:0},
-            {y:0, opacity:1, duration:0.22, ease:'none'},
-            0.44
-          )
-          .to('#hero-grid',{y:'-10%',rotationX: reduce ? 0 : 61,duration:0.4,ease:'none'},0.08)
-          .to('#hero-ribbon',{xPercent:4,yPercent:-7,scale:1.05,rotation: reduce ? 0 : .8,duration:0.8,ease:'none'},0)
-          // HOLD: 0.44 to 0.78 is hold
-          .to('#hero-name',{xPercent:-50,yPercent:-50,x:'-16vw',y:'-24vh',scale:0.58,opacity:0.4,duration:0.2,ease:'none'},0.80)
-          .to('#hero-role',{y:'-5vh',opacity:0.25,duration:0.2,ease:'none'},0.80)
-          .to('#hero-about',{y:'-6vh',opacity:0.2,duration:0.2,ease:'none'},0.82)
-          .to('#hero-enter',{opacity:0,duration:0.18,ease:'none'},0.82);
+          .to('.hero-center-stack', {
+            y: '-14vh',
+            opacity: 0.2,
+            scale: 0.95,
+            duration: 0.75,
+            ease: 'none'
+          }, 0.1)
+          .to('#hero-grid',{y:'-10%',rotationX: 61,duration:0.4,ease:'none'},0.08)
+          .to('#hero-ribbon',{xPercent:4,yPercent:-7,scale:1.05,rotation: .8,duration:0.8,ease:'none'},0);
 
         // PROJECTS TIMELINES
         function setupProject(index, id){
@@ -684,8 +688,9 @@
 
       // MOBILE (<= 900px)
       "(max-width: 900px)": function() {
-        if(reduce) return;
-        gsap.utils.toArray('.hero-role,.hero-about,.hero-enter,.project-copy,.project-frame-wrap,.project-meta,.contact-copy,.contact-form,.footer-grid').forEach(el=>{
+        const heroTl = gsap.timeline({scrollTrigger: sceneScroll('#hero-story')});
+        heroTl.to('.hero-center-stack', {y: '-8vh', opacity: 0.25, duration: 0.75, ease: 'none'}, 0.1);
+        gsap.utils.toArray('.project-copy,.project-frame-wrap,.project-meta,.contact-copy,.contact-form,.footer-grid').forEach(el=>{
           gsap.fromTo(el,{y:20,opacity:0},{y:0,opacity:1,duration:0.65,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%',once:true}});
         });
       }
