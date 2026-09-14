@@ -27,7 +27,7 @@ async function seedInitialData() {
         {
           title: 'RAKSHI CREATES',
           slug: 'rakshi-creates',
-          index_label: '01 / 03',
+          index_label: '01 / 04',
           description: "A website for Rakshi's resin art, collections, and custom work.",
           category: 'RESIN ART / COLLECTIONS / CUSTOM',
           meta_tags: 'RESIN ART, E-COMMERCE, CUSTOM WORK',
@@ -39,7 +39,7 @@ async function seedInitialData() {
         {
           title: 'ISH-WORDS',
           slug: 'ish-words',
-          index_label: '02 / 03',
+          index_label: '02 / 04',
           description: 'A personal website for author and poet Ishika Bafna.',
           category: 'AUTHOR / POET / WRITING',
           meta_tags: 'LITERARY, PORTFOLIO, POETRY',
@@ -51,13 +51,25 @@ async function seedInitialData() {
         {
           title: 'THE UNJUDGED',
           slug: 'the-unjudged',
-          index_label: '03 / 03',
+          index_label: '03 / 04',
           description: 'A focused digital space built around writing and thought.',
           category: 'THOUGHT / WRITING / EDITORIAL',
           meta_tags: 'EDITORIAL, SPA, WRITING',
           live_url: 'https://the-unjudged.ai.studio/',
           accent_color: '#f4f3ef',
           order_index: 2,
+          is_published: true
+        },
+        {
+          title: 'THE KINSHIP JOURNEY',
+          slug: 'the-kinship-journey',
+          index_label: '04 / 04',
+          description: 'An emotional hydration companion & mindful connection experience.',
+          category: 'HYDRATION & WELLNESS / EMOTIONAL COMPANION',
+          meta_tags: 'MINDFULNESS, HYDRATION, WELLNESS, APP',
+          live_url: 'https://kinship-bice.vercel.app/',
+          accent_color: '#64b5f6',
+          order_index: 3,
           is_published: true
         }
       ];
