@@ -17,6 +17,7 @@ data/*.db-wal
 # OS & Logs
 *.log
 .DS_Store
-Thumbs.db
-
 .vercel
+
+# Cloned tools / references
+scroll-world/

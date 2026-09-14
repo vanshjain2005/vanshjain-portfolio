@@ -70,7 +70,7 @@ describe('Full-Stack Portfolio API Integration Tests', () => {
     const badLogin = await fetch(`${baseUrl}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'vanshjain.dev@gmail.com', password: 'WrongPassword' })
+      body: JSON.stringify({ email: 'jainvansh24712@gmail.com', password: 'WrongPassword' })
     });
     assert.strictEqual(badLogin.status, 401);
 
@@ -78,7 +78,7 @@ describe('Full-Stack Portfolio API Integration Tests', () => {
     const goodLogin = await fetch(`${baseUrl}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'vanshjain.dev@gmail.com', password: 'Admin@12345' })
+      body: JSON.stringify({ email: 'jainvansh24712@gmail.com', password: 'Jainvansh24712@' })
     });
     assert.strictEqual(goodLogin.status, 200);
     const authData = await goodLogin.json();
@@ -91,7 +91,7 @@ describe('Full-Stack Portfolio API Integration Tests', () => {
     });
     assert.strictEqual(meRes.status, 200);
     const meData = await meRes.json();
-    assert.strictEqual(meData.user.email, 'vanshjain.dev@gmail.com');
+    assert.strictEqual(meData.user.email, 'jainvansh24712@gmail.com');
   });
 
   test('POST /api/projects requires authentication', async () => {

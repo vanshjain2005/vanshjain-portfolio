@@ -6,10 +6,10 @@ const Setting = require('../models/Setting');
 async function seedInitialData() {
   try {
     // 1. Seed Admin User
-    const adminEmail = (process.env.ADMIN_EMAIL || 'vanshjain.dev@gmail.com').toLowerCase().trim();
+    const adminEmail = (process.env.ADMIN_EMAIL || 'jainvansh24712@gmail.com').toLowerCase().trim();
     const existingAdmin = await User.findOne({ email: adminEmail });
     if (!existingAdmin) {
-      const defaultPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'Admin@12345';
+      const defaultPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'Jainvansh24712@';
       const passwordHash = await bcrypt.hash(defaultPassword, 10);
       await User.create({
         email: adminEmail,
