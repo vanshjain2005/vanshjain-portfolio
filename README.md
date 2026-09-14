@@ -1,6 +1,25 @@
 # Vansh Jain — Full-Stack Cinematic Portfolio & Studio CMS
 
-A production-ready full-stack portfolio web application crafted with an editorial dark aesthetic, GSAP cinematic scroll storytelling, an Express REST API backend, SQLite persistence, OpenAPI/Swagger documentation, and an integrated Admin CMS Dashboard.
+A production-ready full-stack portfolio web application crafted with an editorial dark aesthetic, GSAP cinematic scroll storytelling, an Express REST API backend, **MongoDB (Mongoose)** persistence, OpenAPI/Swagger documentation, and an integrated Admin CMS Dashboard.
+
+---
+
+## 🍃 MongoDB Compass Tracking
+
+You can view, track, and manage all portfolio data live in **MongoDB Compass**:
+
+1. Open **MongoDB Compass** on your computer.
+2. In the connection bar, enter:
+   ```text
+   mongodb://localhost:27017
+   ```
+3. Click **Connect**.
+4. Select the **`portfolio`** database to inspect all live collections:
+   - **`inquiries`**: Incoming client inquiries submitted via the portfolio contact form.
+   - **`analytics`**: Real-time pageviews and project interaction telemetry.
+   - **`projects`**: Portfolio case studies (title, slug, live URLs, categories).
+   - **`users`**: Admin authentication accounts.
+   - **`settings`**: Editable site copy, hero statements, and contact details.
 
 ---
 
@@ -11,15 +30,15 @@ A production-ready full-stack portfolio web application crafted with an editoria
 npm install
 ```
 
-### 2. Configure Environment (Optional)
-The project comes with default development settings pre-configured in `.env`:
+### 2. Configure Environment
+Default development settings in `.env`:
 ```env
 PORT=8080
 NODE_ENV=development
 JWT_SECRET=super-secret-vansh-portfolio-jwt-token-key-2026
 ADMIN_EMAIL=vanshjain.dev@gmail.com
 ADMIN_DEFAULT_PASSWORD=Admin@12345
-DATABASE_PATH=data/portfolio.db
+MONGODB_URI=mongodb://127.0.0.1:27017/portfolio
 ```
 
 ### 3. Run the Server

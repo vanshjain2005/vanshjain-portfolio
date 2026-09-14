@@ -1,11 +1,13 @@
 const { test, describe, before, after } = require('node:test');
 const assert = require('node:assert');
 const app = require('../src/server');
+const { connectDB, mongoose } = require('../src/config/database');
 
 let server;
 let baseUrl;
 
 before(async () => {
+  await connectDB();
   await new Promise((resolve) => {
     server = app.listen(0, () => {
       const port = server.address().port;
@@ -17,6 +19,7 @@ before(async () => {
 
 after(async () => {
   await new Promise((resolve) => server.close(resolve));
+  await mongoose.disconnect();
 });
 
 describe('Full-Stack Portfolio API Integration Tests', () => {

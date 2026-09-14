@@ -7,6 +7,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');
 const { errorHandler, notFoundHandler } = require('./middleware/error.middleware');
 
+const { connectDB, mongoose } = require('./config/database');
+
 // Routes
 const authRoutes = require('./routes/auth.routes');
 const projectRoutes = require('./routes/project.routes');
@@ -25,6 +27,16 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Ensure MongoDB connection is active
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+  } catch (err) {
+    console.error('[DB CONNECT ERROR]', err.message);
+  }
+  next();
+});
+
 // Serve static frontend assets
 app.use(express.static(path.join(process.cwd(), 'public')));
 
@@ -36,7 +48,15 @@ app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 
 // API Routes
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'healthy', timestamp: new Date().toISOString(), env: process.env.NODE_ENV || 'development' });
+  const dbState = mongoose.connection.readyState;
+  const dbStatus = dbState === 1 ? 'connected' : dbState === 2 ? 'connecting' : 'disconnected';
+  res.json({
+    status: 'healthy',
+    database: 'mongodb',
+    db_status: dbStatus,
+    timestamp: new Date().toISOString(),
+    env: process.env.NODE_ENV || 'development'
+  });
 });
 
 app.use('/api/auth', authRoutes);
@@ -102,13 +122,18 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`====================================================`);
-    console.log(`🚀 Vansh Jain Portfolio Server Running on Port ${PORT}`);
-    console.log(`🌐 Public Website:     http://localhost:${PORT}/`);
-    console.log(`⚡ Admin Dashboard:    http://localhost:${PORT}/admin`);
-    console.log(`📖 API Documentation:  http://localhost:${PORT}/api/docs`);
-    console.log(`====================================================`);
+  connectDB().then(() => {
+    app.listen(PORT, () => {
+      console.log(`====================================================`);
+      console.log(`🚀 Vansh Jain Portfolio Server Running on Port ${PORT}`);
+      console.log(`🌐 Public Website:     http://localhost:${PORT}/`);
+      console.log(`⚡ Admin Dashboard:    http://localhost:${PORT}/admin`);
+      console.log(`📖 API Documentation:  http://localhost:${PORT}/api/docs`);
+      console.log(`🍃 Database:           MongoDB Compass / localhost:27017`);
+      console.log(`====================================================`);
+    });
+  }).catch(err => {
+    console.error('Failed to start server:', err);
   });
 }
 

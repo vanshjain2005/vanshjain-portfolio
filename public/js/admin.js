@@ -140,26 +140,26 @@
           <td><span class="status-tag ${p.is_published ? 'replied' : 'read'}">${p.is_published ? 'LIVE' : 'DRAFT'}</span></td>
           <td>
             <div style="display:flex;gap:8px;">
-              <button class="btn-secondary btn-edit-proj" data-id="${p.id}" style="padding:4px 10px;font-size:9px;">EDIT</button>
-              <button class="btn-danger btn-del-proj" data-id="${p.id}">DEL</button>
+              <button class="btn-secondary btn-edit-proj" data-id="${p._id || p.id}" style="padding:4px 10px;font-size:9px;">EDIT</button>
+              <button class="btn-danger btn-del-proj" data-id="${p._id || p.id}">DEL</button>
             </div>
           </td>
         </tr>
       `).join('');
 
       // Wire Action Buttons
-      qa('.btn-edit-proj').forEach(btn => btn.addEventListener('click', () => editProject(Number(btn.dataset.id))));
-      qa('.btn-del-proj').forEach(btn => btn.addEventListener('click', () => deleteProject(Number(btn.dataset.id))));
+      qa('.btn-edit-proj').forEach(btn => btn.addEventListener('click', () => editProject(btn.dataset.id)));
+      qa('.btn-del-proj').forEach(btn => btn.addEventListener('click', () => deleteProject(btn.dataset.id)));
     } catch (err) {
       showAlert(err.message, true);
     }
   }
 
   function editProject(id) {
-    const proj = state.projects.find(p => p.id === id);
+    const proj = state.projects.find(p => String(p._id || p.id) === String(id));
     if (!proj) return;
     q('#modal-project-title').textContent = 'EDIT PROJECT';
-    q('#proj-id').value = proj.id;
+    q('#proj-id').value = proj._id || proj.id;
     q('#proj-title').value = proj.title;
     q('#proj-slug').value = proj.slug;
     q('#proj-index').value = proj.index_label;
@@ -250,8 +250,8 @@
           <td><span class="status-tag ${inq.status}">${inq.status}</span></td>
           <td>
             <div style="display:flex;gap:6px;">
-              ${inq.status !== 'replied' ? `<button class="btn-secondary btn-status-inq" data-id="${inq.id}" data-status="replied" style="padding:4px 8px;font-size:9px;">REPLIED</button>` : ''}
-              <button class="btn-danger btn-del-inq" data-id="${inq.id}">DEL</button>
+              ${inq.status !== 'replied' ? `<button class="btn-secondary btn-status-inq" data-id="${inq._id || inq.id}" data-status="replied" style="padding:4px 8px;font-size:9px;">REPLIED</button>` : ''}
+              <button class="btn-danger btn-del-inq" data-id="${inq._id || inq.id}">DEL</button>
             </div>
           </td>
         </tr>

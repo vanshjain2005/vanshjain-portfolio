@@ -1,33 +1,45 @@
-const { queryAll, queryOne, run } = require('../config/database');
+const Setting = require('../models/Setting');
 
-exports.getSettings = (req, res) => {
-  const rows = queryAll('SELECT key, value FROM settings');
-  const settings = rows.reduce((acc, row) => ({ ...acc, [row.key]: row.value }), {});
-  return res.json({ success: true, data: settings });
+exports.getAll = async (req, res, next) => {
+  try {
+    const settings = await Setting.find().lean();
+    const map = settings.reduce((acc, curr) => ({ ...acc, [curr.key]: curr.value }), {});
+
+    return res.json({
+      success: true,
+      data: map
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
-exports.updateSettings = (req, res) => {
-  const updates = req.body;
-  if (!updates || typeof updates !== 'object') {
-    return res.status(400).json({ success: false, error: 'Invalid settings payload' });
-  }
+exports.update = async (req, res, next) => {
+  try {
+    const updates = req.body;
 
-  const upsert = (key, val) => {
-    const existing = queryOne('SELECT key FROM settings WHERE key = ?', key);
-    if (existing) {
-      run('UPDATE settings SET value = ?, updated_at = CURRENT_TIMESTAMP WHERE key = ?', String(val), key);
-    } else {
-      run('INSERT INTO settings (key, value) VALUES (?, ?)', key, String(val));
+    if (!updates || typeof updates !== 'object') {
+      return res.status(400).json({ success: false, error: 'Invalid settings payload' });
     }
-  };
 
-  for (const [k, v] of Object.entries(updates)) {
-    if (v !== undefined && v !== null) {
-      upsert(k, v);
-    }
+    const ops = Object.entries(updates).map(([key, value]) => {
+      return Setting.findOneAndUpdate(
+        { key: String(key) },
+        { value: String(value) },
+        { upsert: true, new: true }
+      );
+    });
+
+    await Promise.all(ops);
+
+    return res.json({
+      success: true,
+      message: 'Settings updated successfully'
+    });
+  } catch (err) {
+    next(err);
   }
-
-  const rows = queryAll('SELECT key, value FROM settings');
-  const settings = rows.reduce((acc, row) => ({ ...acc, [row.key]: row.value }), {});
-  return res.json({ success: true, message: 'Settings updated successfully', data: settings });
 };
+
+exports.getSettings = exports.getAll;
+exports.updateSettings = exports.update;

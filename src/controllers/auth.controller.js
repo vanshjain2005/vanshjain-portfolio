@@ -1,68 +1,91 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { queryOne, run } = require('../config/database');
-const { JWT_SECRET } = require('../middleware/auth.middleware');
+const User = require('../models/User');
 
-exports.login = (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ success: false, error: 'Email and password are required' });
-  }
+const JWT_SECRET = process.env.JWT_SECRET || 'portfolio_jwt_secret_dev_2026_vansh_jain_cinematic';
 
-  const user = queryOne('SELECT * FROM users WHERE email = ?', email.trim().toLowerCase());
-  if (!user) {
-    return res.status(401).json({ success: false, error: 'Invalid email or password' });
-  }
+exports.login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
 
-  const isValid = bcrypt.compareSync(password, user.password_hash);
-  if (!isValid) {
-    return res.status(401).json({ success: false, error: 'Invalid email or password' });
-  }
-
-  const token = jwt.sign(
-    { id: user.id, email: user.email, name: user.name, role: user.role },
-    JWT_SECRET,
-    { expiresIn: '7d' }
-  );
-
-  return res.json({
-    success: true,
-    message: 'Authentication successful',
-    token,
-    user: {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role
+    if (!email || !password) {
+      return res.status(400).json({ success: false, error: 'Email and password are required' });
     }
-  });
+
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
+    if (!user) {
+      return res.status(401).json({ success: false, error: 'Invalid email or password' });
+    }
+
+    const isValid = await bcrypt.compare(password, user.password_hash);
+    if (!isValid) {
+      return res.status(401).json({ success: false, error: 'Invalid email or password' });
+    }
+
+    const token = jwt.sign(
+      { id: user._id, email: user.email, name: user.name, role: user.role },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    return res.json({
+      success: true,
+      message: 'Authentication successful',
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        role: user.role
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
-exports.getMe = (req, res) => {
-  const user = queryOne('SELECT id, email, name, role, created_at FROM users WHERE id = ?', req.user.id);
-  if (!user) {
-    return res.status(404).json({ success: false, error: 'User not found' });
+exports.me = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password_hash').lean();
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    return res.json({ success: true, user });
+  } catch (err) {
+    next(err);
   }
-  return res.json({ success: true, user });
 };
 
-exports.changePassword = (req, res) => {
-  const { oldPassword, newPassword } = req.body;
-  if (!oldPassword || !newPassword) {
-    return res.status(400).json({ success: false, error: 'Current and new password are required' });
+exports.getMe = exports.me;
+
+exports.changePassword = async (req, res, next) => {
+  try {
+    const { current_password, new_password } = req.body;
+
+    if (!current_password || !new_password) {
+      return res.status(400).json({ success: false, error: 'Current and new password are required' });
+    }
+
+    if (new_password.length < 8) {
+      return res.status(400).json({ success: false, error: 'Password must be at least 8 characters long' });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
+    }
+
+    const isValid = await bcrypt.compare(current_password, user.password_hash);
+    if (!isValid) {
+      return res.status(401).json({ success: false, error: 'Current password is incorrect' });
+    }
+
+    user.password_hash = await bcrypt.hash(new_password, 10);
+    await user.save();
+
+    return res.json({ success: true, message: 'Password updated successfully' });
+  } catch (err) {
+    next(err);
   }
-
-  if (newPassword.length < 6) {
-    return res.status(400).json({ success: false, error: 'New password must be at least 6 characters' });
-  }
-
-  const user = queryOne('SELECT * FROM users WHERE id = ?', req.user.id);
-  if (!user || !bcrypt.compareSync(oldPassword, user.password_hash)) {
-    return res.status(401).json({ success: false, error: 'Incorrect current password' });
-  }
-
-  const hash = bcrypt.hashSync(newPassword, 10);
-  run('UPDATE users SET password_hash = ? WHERE id = ?', hash, req.user.id);
-
-  return res.json({ success: true, message: 'Password updated successfully' });
 };
